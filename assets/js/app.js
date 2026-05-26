@@ -217,8 +217,8 @@ function renderIssueTable(rows) {
     <tr>
       <td class="text-center" style="color:var(--text-muted);font-size:.78rem">${i+1}</td>
       <td><div class="cell-name-main" style="white-space:pre-wrap;word-break:break-word">${esc(r.issue)}</div></td>
-      <td style="white-space:pre-wrap;word-break:break-word">
-        ${esc(r.note) ? `<span style="font-size:.8rem;color:var(--text-muted)">${esc(r.note)}</span>` : '<span style="color:var(--text-muted);font-size:.8rem">—</span>'}
+      <td style="word-break:break-word">
+        ${esc(r.note?.trim()) ? `<span style="font-size:.8rem;color:var(--text-muted)">${esc(r.note.trim())}</span>` : '<span style="color:var(--text-muted);font-size:.8rem">—</span>'}
       </td>
       <td class="text-center" style="font-size:.8rem">${fmtDate(r.deadline)}</td>
       <td class="text-center">${r.status === 'Sudah' ? '<span class="badge-done">Done</span>' : '<span class="badge-pending">Pending</span>'}</td>
