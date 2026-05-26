@@ -1,255 +1,269 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Evaluasi</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HYP — Evaluasi</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icon-512x512.png" />
 
   <!-- Vendor CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0"
+    rel="stylesheet" />
 
   <!-- App CSS -->
-  <link rel="stylesheet" href="assets/css/app.css"/>
+  <link rel="stylesheet" href="assets/css/app.css" />
 </head>
+
 <body>
 
-<div class="overlay" id="overlay"></div>
-<div class="app-wrap">
+  <div class="overlay" id="overlay"></div>
+  <div class="app-wrap">
 
-  <!-- ── SIDEBAR ── -->
-  <aside class="sidebar collapsed" id="sidebar">
-    <div class="sb-head">
-      <div class="sb-avatar">EV</div>
-      <div class="sb-info">
-        <div class="sb-title">Evaluasi App</div>
-        <div class="sb-sub">Issue Tracker</div>
+    <!-- ── SIDEBAR ── -->
+    <aside class="sidebar collapsed" id="sidebar">
+      <div class="sb-head">
+        <div class="sb-avatar">EV</div>
+        <div class="sb-info">
+          <div class="sb-title">Evaluasi App</div>
+          <div class="sb-sub">Issue Tracker</div>
+        </div>
+        <button class="icon-btn" id="sbToggle">
+          <span class="material-symbols-rounded">chevron_left</span>
+        </button>
       </div>
-      <button class="icon-btn" id="sbToggle">
-        <span class="material-symbols-rounded">chevron_left</span>
-      </button>
-    </div>
-    <nav class="sb-nav">
-      <div class="nav-label">Menu</div>
-      <ul class="nav-list">
-        <li>
-          <button class="nav-link active" data-view="list" onclick="showView('list')">
-            <span class="material-symbols-rounded">view_list</span>
-            <span class="label">Evaluation List</span>
-          </button>
-        </li>
-      </ul>
-    </nav>
-    <div class="sb-foot">
-      <button class="theme-btn" id="themeBtn">
-        <span class="material-symbols-rounded" id="themeIcon">dark_mode</span>
-        <span class="t-label" id="themeLabel">Dark Mode</span>
-      </button>
-    </div>
-  </aside>
-
-  <!-- ── MAIN ── -->
-  <div class="main">
-
-    <!-- Topbar -->
-    <div class="topbar">
-      <button class="icon-btn" id="sbToggleMob">
-        <span class="material-symbols-rounded">menu</span>
-      </button>
-      <div class="breadcrumb-wrap">
-        <div class="page-title" id="pageTitle">Evaluation List</div>
-        <div class="page-subtitle" id="pageSubtitle">Master data evaluasi &amp; issue</div>
-      </div>
-    </div>
-
-    <div class="main-body">
-
-      <!-- ── VIEW: LIST ── -->
-      <div class="view active" id="view-list">
-        <div class="card">
-          <div class="card-head">
-            <div class="card-head-inner">
-              <div>
-                <div class="card-title">Evaluation List</div>
-                <div class="card-sub">Daftar semua evaluasi</div>
-              </div>
-              <span class="badge-count" id="eval-badge-count">0 data</span>
-            </div>
-            <button class="btn btn-primary btn-sm" onclick="showView('form-eval',{mode:'add'})">
-              <span class="material-symbols-rounded">add</span> Add
+      <nav class="sb-nav">
+        <div class="nav-label">Menu</div>
+        <ul class="nav-list">
+          <li>
+            <button class="nav-link active" data-view="list" onclick="showView('list')">
+              <span class="material-symbols-rounded">view_list</span>
+              <span class="label">Evaluation List</span>
             </button>
-          </div>
-          <div style="padding:16px 20px 4px">
-            <table class="table table-hover w-100" id="tbl-eval">
-              <thead>
-                <tr>
-                  <th style="width:16%">ID</th>
-                  <th style="width:49%">Name</th>
-                  <th class="text-center" style="width:18%">Total Issue</th>
-                  <th class="text-center" style="width:17%">Action</th>
-                </tr>
-              </thead>
-              <tbody id="eval-tbody"></tbody>
-            </table>
-          </div>
+          </li>
+        </ul>
+      </nav>
+      <div class="sb-foot">
+        <button class="theme-btn" id="themeBtn">
+          <span class="material-symbols-rounded" id="themeIcon">dark_mode</span>
+          <span class="t-label" id="themeLabel">Dark Mode</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ── MAIN ── -->
+    <div class="main">
+
+      <!-- Topbar -->
+      <div class="topbar">
+        <button class="icon-btn" id="sbToggleMob">
+          <span class="material-symbols-rounded">menu</span>
+        </button>
+        <div class="breadcrumb-wrap">
+          <div class="page-title" id="pageTitle">Evaluation List</div>
+          <div class="page-subtitle" id="pageSubtitle">Master data evaluasi &amp; issue</div>
         </div>
       </div>
 
-      <!-- ── VIEW: FORM EVALUASI ── -->
-      <div class="view" id="view-form-eval">
-        <div class="d-flex justify-content-center">
-          <div class="card w-100" style="max-width:640px">
+      <div class="main-body">
+
+        <!-- ── VIEW: LIST ── -->
+        <div class="view active" id="view-list">
+          <div class="card">
             <div class="card-head">
-              <div class="card-title" id="form-eval-title">Add Evaluation</div>
-            </div>
-            <div class="card-body">
-              <input type="hidden" id="eval-id-hidden"/>
-              <div id="eval-id-row" style="display:none" class="mb-3">
-                <label class="form-label">ID</label>
-                <input type="text" class="form-control" id="eval-id-display" readonly style="background:var(--accent-bg);color:var(--text-muted)"/>
-                <div class="form-error" style="color:var(--text-muted);font-size:.72rem;margin-top:3px">ID tidak bisa diubah</div>
-              </div>
-              <div class="mb-4">
-                <label class="form-label">Name <span class="req">*</span></label>
-                <input type="text" class="form-control" id="eval-nama" placeholder="Masukkan nama evaluasi unik"/>
-                <div class="form-error" id="eval-nama-err"></div>
-              </div>
-              <div class="d-flex justify-content-end gap-2">
-                <button class="btn btn-light btn-sm" onclick="showView('list')">
-                  <span class="material-symbols-rounded">arrow_back</span> Back
-                </button>
-                <button class="btn btn-primary btn-sm" id="btn-save-eval" onclick="saveEval()">
-                  <span class="material-symbols-rounded">check</span> Save
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── VIEW: DETAIL / ISSUES ── -->
-      <div class="view" id="view-detail">
-        <div class="card mb-3">
-          <div class="card-body py-3">
-            <div class="eval-selector">
-              <label class="form-label mb-0" style="white-space:nowrap">Select Evaluation:</label>
-              <select class="form-select form-select-sm" id="eval-selector"></select>
-              <div class="ms-auto d-flex gap-2">
-                <button class="btn btn-warning btn-sm" onclick="editCurrentEval()">
-                  <span class="material-symbols-rounded">edit</span> Edit Name
-                </button>
-                <button class="btn btn-light btn-sm" onclick="showView('list')">
-                  <span class="material-symbols-rounded">arrow_back</span> Back
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-head">
-            <div class="card-head-inner">
-              <div>
-                <div class="card-title">Issue List</div>
-                <div class="card-sub" id="detail-eval-name">—</div>
-              </div>
-              <span class="badge-count" id="issue-badge-count">0 issue</span>
-            </div>
-            <button class="btn btn-primary btn-sm" onclick="showView('form-issue',{mode:'add'})">
-              <span class="material-symbols-rounded">add</span> Add Issue
-            </button>
-          </div>
-          <div style="padding:16px 20px 4px">
-            <table class="table table-hover w-100" id="tbl-issue">
-              <thead>
-                <tr>
-                  <th class="text-center" style="width:5%">No</th>
-                  <th style="width:28%">Issue</th>
-                  <th style="width:22%">Note</th>
-                  <th class="text-center" style="width:12%">Deadline</th>
-                  <th class="text-center" style="width:10%">Status</th>
-                  <th class="text-center" style="width:13%">Action</th>
-                </tr>
-              </thead>
-              <tbody id="issue-tbody"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── VIEW: FORM ISSUE ── -->
-      <div class="view" id="view-form-issue">
-        <div class="d-flex justify-content-center">
-          <div class="card w-100" style="max-width:720px">
-            <div class="card-head">
-              <div class="card-title" id="form-issue-title">Add Issue</div>
-            </div>
-            <div class="card-body">
-              <input type="hidden" id="issue-id-hidden"/>
-              <input type="hidden" id="issue-eval-id-hidden"/>
-              <div class="mb-3">
-                <label class="form-label">Issue <span class="req">*</span></label>
-                <textarea class="form-control" id="issue-text" rows="4" placeholder="Deskripsikan issue…"></textarea>
-                <div class="form-error" id="issue-text-err"></div>
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Note <span style="color:var(--text-muted);font-weight:400">(opsional)</span></label>
-                <textarea class="form-control" id="issue-note" rows="3" placeholder="Catatan tambahan…"></textarea>
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Deadline <span class="req">*</span></label>
-                <input type="date" class="form-control" id="issue-deadline"/>
-                <div class="form-error" id="issue-deadline-err"></div>
-              </div>
-              <div class="mb-4">
-                <label class="form-label">Status <span class="req">*</span></label>
-                <div class="radio-group">
-                  <label class="radio-opt"><input type="radio" name="issue-status" value="Belum" checked/> Pending</label>
-                  <label class="radio-opt"><input type="radio" name="issue-status" value="Sudah"/> Done</label>
+              <div class="card-head-inner">
+                <div>
+                  <div class="card-title">Evaluation List</div>
+                  <div class="card-sub">Daftar semua evaluasi</div>
                 </div>
-                <div class="form-error" id="issue-status-err"></div>
+                <span class="badge-count" id="eval-badge-count">0 data</span>
               </div>
-              <div class="d-flex justify-content-end gap-2">
-                <button class="btn btn-light btn-sm" onclick="showView('detail')">
-                  <span class="material-symbols-rounded">arrow_back</span> Cancel
-                </button>
-                <button class="btn btn-primary btn-sm" id="btn-save-issue" onclick="saveIssue()">
-                  <span class="material-symbols-rounded">check</span> Save Issue
-                </button>
+              <button class="btn btn-primary btn-sm" onclick="showView('form-eval',{mode:'add'})">
+                <span class="material-symbols-rounded">add</span> Add
+              </button>
+            </div>
+            <div style="padding:16px 20px 4px">
+              <table class="table table-hover w-100" id="tbl-eval">
+                <thead>
+                  <tr>
+                    <th style="width:16%">ID</th>
+                    <th style="width:49%">Name</th>
+                    <th class="text-center" style="width:18%">Total Issue</th>
+                    <th class="text-center" style="width:17%">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="eval-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── VIEW: FORM EVALUASI ── -->
+        <div class="view" id="view-form-eval">
+          <div class="d-flex justify-content-center">
+            <div class="card w-100" style="max-width:640px">
+              <div class="card-head">
+                <div class="card-title" id="form-eval-title">Add Evaluation</div>
+              </div>
+              <div class="card-body">
+                <input type="hidden" id="eval-id-hidden" />
+                <div id="eval-id-row" style="display:none" class="mb-3">
+                  <label class="form-label">ID</label>
+                  <input type="text" class="form-control" id="eval-id-display" readonly
+                    style="background:var(--accent-bg);color:var(--text-muted)" />
+                  <div class="form-error" style="color:var(--text-muted);font-size:.72rem;margin-top:3px">ID tidak bisa
+                    diubah</div>
+                </div>
+                <div class="mb-4">
+                  <label class="form-label">Name <span class="req">*</span></label>
+                  <input type="text" class="form-control" id="eval-nama" placeholder="Masukkan nama evaluasi unik" />
+                  <div class="form-error" id="eval-nama-err"></div>
+                </div>
+                <div class="d-flex justify-content-end gap-2">
+                  <button class="btn btn-light btn-sm" onclick="showView('list')">
+                    <span class="material-symbols-rounded">arrow_back</span> Back
+                  </button>
+                  <button class="btn btn-primary btn-sm" id="btn-save-eval" onclick="saveEval()">
+                    <span class="material-symbols-rounded">check</span> Save
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-    </div><!-- /main-body -->
-  </div><!-- /main -->
-</div><!-- /app-wrap -->
+        <!-- ── VIEW: DETAIL / ISSUES ── -->
+        <div class="view" id="view-detail">
+          <div class="card mb-3">
+            <div class="card-body py-3">
+              <div class="eval-selector">
+                <label class="form-label mb-0" style="white-space:nowrap">Select Evaluation:</label>
+                <select class="form-select form-select-sm" id="eval-selector"></select>
+                <div class="ms-auto d-flex gap-2">
+                  <button class="btn btn-warning btn-sm" onclick="editCurrentEval()">
+                    <span class="material-symbols-rounded">edit</span> Edit Name
+                  </button>
+                  <button class="btn btn-light btn-sm" onclick="showView('list')">
+                    <span class="material-symbols-rounded">arrow_back</span> Back
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">
+              <div class="card-head-inner">
+                <div>
+                  <div class="card-title">Issue List</div>
+                  <div class="card-sub" id="detail-eval-name">—</div>
+                </div>
+                <span class="badge-count" id="issue-badge-count">0 issue</span>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="showView('form-issue',{mode:'add'})">
+                <span class="material-symbols-rounded">add</span> Add Issue
+              </button>
+            </div>
+            <div style="padding:16px 20px 4px">
+              <table class="table table-hover w-100" id="tbl-issue">
+                <thead>
+                  <tr>
+                    <th class="text-center" style="width:5%">No</th>
+                    <th style="width:28%">Issue</th>
+                    <th style="width:22%">Note</th>
+                    <th class="text-center" style="width:12%">Deadline</th>
+                    <th class="text-center" style="width:10%">Status</th>
+                    <th class="text-center" style="width:13%">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="issue-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
 
-<!-- Scroll buttons -->
-<div class="scroll-btns">
-  <button class="scroll-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Ke atas">
-    <span class="material-symbols-rounded">keyboard_arrow_up</span>
-  </button>
-  <button class="scroll-btn" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})" title="Ke bawah">
-    <span class="material-symbols-rounded">keyboard_arrow_down</span>
-  </button>
-</div>
+        <!-- ── VIEW: FORM ISSUE ── -->
+        <div class="view" id="view-form-issue">
+          <div class="d-flex justify-content-center">
+            <div class="card w-100" style="max-width:720px">
+              <div class="card-head">
+                <div class="card-title" id="form-issue-title">Add Issue</div>
+              </div>
+              <div class="card-body">
+                <input type="hidden" id="issue-id-hidden" />
+                <input type="hidden" id="issue-eval-id-hidden" />
+                <div class="mb-3">
+                  <label class="form-label">Issue <span class="req">*</span></label>
+                  <textarea class="form-control" id="issue-text" rows="4" placeholder="Deskripsikan issue…"></textarea>
+                  <div class="form-error" id="issue-text-err"></div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Note <span
+                      style="color:var(--text-muted);font-weight:400">(opsional)</span></label>
+                  <textarea class="form-control" id="issue-note" rows="3" placeholder="Catatan tambahan…"></textarea>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Deadline <span class="req">*</span></label>
+                  <input type="date" class="form-control" id="issue-deadline" />
+                  <div class="form-error" id="issue-deadline-err"></div>
+                </div>
+                <div class="mb-4">
+                  <label class="form-label">Status <span class="req">*</span></label>
+                  <div class="radio-group">
+                    <label class="radio-opt"><input type="radio" name="issue-status" value="Belum" checked />
+                      Pending</label>
+                    <label class="radio-opt"><input type="radio" name="issue-status" value="Sudah" /> Done</label>
+                  </div>
+                  <div class="form-error" id="issue-status-err"></div>
+                </div>
+                <div class="d-flex justify-content-end gap-2">
+                  <button class="btn btn-light btn-sm" onclick="showView('detail')">
+                    <span class="material-symbols-rounded">arrow_back</span> Cancel
+                  </button>
+                  <button class="btn btn-primary btn-sm" id="btn-save-issue" onclick="saveIssue()">
+                    <span class="material-symbols-rounded">check</span> Save Issue
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-<!-- Vendor JS -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      </div><!-- /main-body -->
+    </div><!-- /main -->
+  </div><!-- /app-wrap -->
 
-<!-- App JS -->
-<script src="assets/js/app.js"></script>
+  <!-- Scroll buttons -->
+  <div class="scroll-btns">
+    <button class="scroll-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Ke atas">
+      <span class="material-symbols-rounded">keyboard_arrow_up</span>
+    </button>
+    <button class="scroll-btn" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})"
+      title="Ke bawah">
+      <span class="material-symbols-rounded">keyboard_arrow_down</span>
+    </button>
+  </div>
+
+  <!-- Vendor JS -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- App JS -->
+  <script src="assets/js/app.js"></script>
 
 </body>
+
 </html>
