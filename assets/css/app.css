@@ -115,7 +115,14 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
 .theme-btn:hover { background: var(--accent); color: #fff; }
 .theme-btn .material-symbols-rounded { font-size: 1.15rem; flex-shrink: 0; }
 .theme-btn .t-label { transition: opacity .25s; }
-.sidebar.collapsed .theme-btn .t-label { opacity: 0; width: 0; }
+.sidebar.collapsed .theme-btn {
+  justify-content: center;
+  gap: 0;
+  padding: 9px 0;
+}
+.sidebar.collapsed .theme-btn .t-label {
+  display: none;
+}
 
 /* ── TOPBAR ── */
 .topbar {
