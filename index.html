@@ -1,1610 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Evaluasi</title>
 
-  <!-- Bootstrap 5 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
-  <!-- DataTables -->
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css" />
-  <!-- Select2 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
-  <link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
-  <!-- SweetAlert2 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0"
-    rel="stylesheet" />
-
-  <style>
-    /* ── VARIABLES ─────────────────────────────────── */
-    :root {
-      --accent: #2C4A7C;
-      --accent-hover: #1e3563;
-      --accent-2: #0D9488;
-      --accent-2-bg: #ccfbf1;
-      --accent-bg: #eef2ff;
-      --sidebar-w: 256px;
-      --sidebar-bg: #ffffff;
-      --bg: #f4f6fb;
-      --card-bg: #ffffff;
-      --border: #e2e8f0;
-      --text: #1e293b;
-      --text-muted: #64748b;
-      --shadow: 0 1px 4px rgba(44, 74, 124, .08);
-      --shadow-md: 0 4px 16px rgba(44, 74, 124, .14);
-      --radius: 10px;
-      --font: 'Plus Jakarta Sans', sans-serif;
-    }
-
-    body.dark {
-      --accent: #4b7cc8;
-      --accent-hover: #6090d8;
-      --accent-bg: #1e2a3e;
-      --accent-2-bg: #042f2e;
-      --sidebar-bg: #162032;
-      --bg: #0f172a;
-      --card-bg: #1a2436;
-      --border: #1e3a5f;
-      --text: #f1f5f9;
-      --text-muted: #94a3b8;
-      --shadow: 0 1px 4px rgba(0, 0, 0, .3);
-      --shadow-md: 0 4px 16px rgba(0, 0, 0, .5);
-    }
-
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: var(--font);
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      transition: background .3s, color .3s;
-    }
-
-    /* ── LAYOUT ─────────────────────────────────────── */
-    .app-wrap {
-      display: flex;
-      min-height: 100vh;
-    }
-
-    .main {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .main-body {
-      flex: 1;
-      padding: 28px 32px;
-    }
-
-    /* ── SIDEBAR ─────────────────────────────────────── */
-    .sidebar {
-      width: var(--sidebar-w);
-      background: var(--sidebar-bg);
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      transition: width .3s, background .3s, border-color .3s;
-      overflow: hidden;
-      flex-shrink: 0;
-      box-shadow: var(--shadow);
-    }
-
-    .sidebar.collapsed {
-      width: 66px;
-    }
-
-    .sb-head {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 16px 12px;
-      border-bottom: 1px solid var(--border);
-      min-height: 64px;
-      overflow: hidden;
-    }
-
-    .sidebar.collapsed .sb-head {
-      justify-content: center;
-      padding: 16px 0;
-      gap: 0;
-    }
-
-    .sb-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      background: var(--accent);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: .8rem;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-
-    .sb-info {
-      overflow: hidden;
-      flex: 1;
-    }
-
-    .sb-title {
-      font-size: .875rem;
-      font-weight: 700;
-      white-space: nowrap;
-      color: var(--text);
-    }
-
-    .sb-sub {
-      font-size: .7rem;
-      color: var(--text-muted);
-      white-space: nowrap;
-    }
-
-    .sb-info,
-    .sb-toggle-wrap {
-      transition: opacity .25s;
-    }
-
-    .sidebar.collapsed .sb-info {
-      opacity: 0;
-      width: 0;
-      overflow: hidden;
-      flex: 0;
-    }
-
-    .sidebar.collapsed .sb-avatar {
-      display: none;
-    }
-
-    .icon-btn {
-      width: 34px;
-      height: 34px;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 8px;
-      background: var(--accent-bg);
-      color: var(--text-muted);
-      flex-shrink: 0;
-      transition: .2s;
-    }
-
-    .icon-btn:hover {
-      background: var(--accent);
-      color: #fff;
-    }
-
-    .icon-btn .material-symbols-rounded {
-      font-size: 1.1rem;
-      transition: transform .3s;
-    }
-
-    .sidebar.collapsed .sb-head .icon-btn .material-symbols-rounded {
-      transform: rotate(180deg);
-    }
-
-    .sb-nav {
-      flex: 1;
-      padding: 14px 0;
-      overflow-y: auto;
-      overflow-x: hidden;
-      scrollbar-width: thin;
-    }
-
-    .nav-label {
-      font-size: .65rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      color: var(--text-muted);
-      padding: 8px 18px 4px;
-      white-space: nowrap;
-      transition: opacity .25s;
-    }
-
-    .sidebar.collapsed .nav-label {
-      opacity: 0;
-    }
-
-    .nav-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      margin-bottom: 12px;
-      padding: 0 8px;
-    }
-
-    .nav-link {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 9px 10px;
-      border-radius: 8px;
-      text-decoration: none;
-      color: var(--text-muted);
-      font-size: .82rem;
-      font-weight: 500;
-      white-space: nowrap;
-      cursor: pointer;
-      transition: .2s;
-      border: none;
-      background: none;
-      width: 100%;
-      text-align: left;
-    }
-
-    .nav-link .material-symbols-rounded {
-      font-size: 1.15rem;
-      flex-shrink: 0;
-    }
-
-    .nav-link span.label {
-      transition: opacity .25s;
-    }
-
-    .sidebar.collapsed .nav-link span.label {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .nav-link:hover {
-      background: var(--accent-bg);
-      color: var(--accent);
-    }
-
-    .nav-link.active {
-      background: var(--accent);
-      color: #fff;
-      box-shadow: var(--shadow-md);
-    }
-
-    .sb-foot {
-      padding: 10px 8px;
-      border-top: 1px solid var(--border);
-    }
-
-    .theme-btn {
-      width: 100%;
-      padding: 9px 10px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      border: none;
-      cursor: pointer;
-      background: var(--accent-bg);
-      color: var(--text-muted);
-      font-size: .82rem;
-      font-weight: 500;
-      transition: .2s;
-      white-space: nowrap;
-      overflow: hidden;
-      font-family: var(--font);
-    }
-
-    .theme-btn:hover {
-      background: var(--accent);
-      color: #fff;
-    }
-
-    .theme-btn .material-symbols-rounded {
-      font-size: 1.15rem;
-      flex-shrink: 0;
-    }
-
-    .theme-btn .t-label {
-      transition: opacity .25s;
-    }
-
-    .sidebar.collapsed .theme-btn .t-label {
-      opacity: 0;
-      width: 0;
-    }
-
-    /* ── TOP BAR ─────────────────────────────────────── */
-    .topbar {
-      background: var(--card-bg);
-      border-bottom: 1px solid var(--border);
-      padding: 14px 32px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      box-shadow: var(--shadow);
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
-
-    .breadcrumb-wrap {
-      flex: 1;
-    }
-
-    .page-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .page-subtitle {
-      font-size: .75rem;
-      color: var(--text-muted);
-    }
-
-    /* ── CARDS ─────────────────────────────────────── */
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      transition: background .3s, border-color .3s;
-    }
-
-    .card-head {
-      padding: 14px 18px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .card-title {
-      font-size: .88rem;
-      font-weight: 700;
-      color: var(--text);
-      line-height: 1.2;
-    }
-
-    .card-sub {
-      font-size: .72rem;
-      color: var(--text-muted);
-    }
-
-    .card-body {
-      padding: 20px;
-    }
-
-    /* ── BUTTONS ─────────────────────────────────────── */
-    .btn {
-      border-radius: 8px;
-      font-size: .84rem;
-      font-weight: 600;
-      font-family: var(--font);
-      padding: 8px 18px;
-      transition: .2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      border: none;
-    }
-
-    .btn .material-symbols-rounded {
-      font-size: 1.05rem;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: #fff;
-    }
-
-    .btn-primary:hover {
-      background: var(--accent-hover);
-      box-shadow: var(--shadow-md);
-      transform: translateY(-1px);
-    }
-
-    .btn-success {
-      background: #0d9488;
-      color: #fff;
-    }
-
-    .btn-success:hover {
-      background: #0f766e;
-      transform: translateY(-1px);
-    }
-
-    .btn-warning {
-      background: #f59e0b;
-      color: #fff;
-    }
-
-    .btn-warning:hover {
-      background: #d97706;
-      transform: translateY(-1px);
-    }
-
-    .btn-danger {
-      background: #ef4444;
-      color: #fff;
-    }
-
-    .btn-danger:hover {
-      background: #dc2626;
-      transform: translateY(-1px);
-    }
-
-    .btn-light {
-      background: var(--accent-bg);
-      color: var(--accent);
-    }
-
-    .btn-light:hover {
-      background: var(--accent);
-      color: #fff;
-    }
-
-    .btn-sm {
-      padding: 7px 14px;
-      font-size: .82rem;
-    }
-
-    /* ── FORM ─────────────────────────────────────── */
-    .form-label {
-      font-size: .8rem;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 5px;
-      display: block;
-    }
-
-    .form-label .req {
-      color: #ef4444;
-      margin-left: 2px;
-    }
-
-    .form-control,
-    .form-select {
-      width: 100%;
-      padding: 8px 12px;
-      border-radius: 7px;
-      border: 1.5px solid var(--border);
-      background: var(--bg);
-      color: var(--text);
-      font-size: .83rem;
-      font-family: var(--font);
-      transition: .2s;
-      outline: none;
-    }
-
-    .form-control:focus,
-    .form-select:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(44, 74, 124, .1);
-    }
-
-    .form-control.invalid,
-    .form-select.invalid {
-      border-color: #ef4444;
-    }
-
-    .form-error {
-      color: #ef4444;
-      font-size: .75rem;
-      margin-top: 4px;
-    }
-
-    textarea.form-control {
-      resize: vertical;
-      min-height: 90px;
-    }
-
-    /* ── BADGES ─────────────────────────────────────── */
-    .badge-done {
-      background: #d1fae5;
-      color: #065f46;
-      font-size: .72rem;
-      font-weight: 600;
-      padding: 3px 10px;
-      border-radius: 20px;
-      display: inline-block;
-    }
-
-    .badge-pending {
-      background: #fee2e2;
-      color: #991b1b;
-      font-size: .72rem;
-      font-weight: 600;
-      padding: 3px 10px;
-      border-radius: 20px;
-      display: inline-block;
-    }
-
-    body.dark .badge-done {
-      background: #064e3b;
-      color: #6ee7b7;
-    }
-
-    body.dark .badge-pending {
-      background: #3b0f0f;
-      color: #fca5a5;
-    }
-
-    /* ── CARD HEADER (badge) ───────────── */
-    .card-head-inner {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex: 1;
-      min-width: 0;
-    }
-
-    .badge-count {
-      font-size: .7rem;
-      font-weight: 600;
-      padding: 3px 9px;
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      background: var(--bg);
-      color: var(--text-muted);
-      white-space: nowrap;
-    }
-
-    /* ── TABLE overrides ─────────────────────────────── */
-    .table {
-      color: var(--text);
-      font-size: .85rem;
-      background: transparent;
-      border-collapse: collapse;
-    }
-
-    .table thead th {
-      background: var(--bg);
-      color: var(--text-muted);
-      font-weight: 600;
-      border-color: var(--border);
-      font-size: .72rem;
-      text-transform: uppercase;
-      letter-spacing: .06em;
-      white-space: nowrap;
-      padding: 10px 14px;
-    }
-
-    /* Zebra striping */
-    .table tbody tr:nth-child(odd) td {
-      background: var(--card-bg);
-    }
-
-    .table tbody tr:nth-child(even) td {
-      background: var(--bg);
-    }
-
-    body.dark .table tbody tr:nth-child(even) td {
-      background: rgba(255, 255, 255, .03);
-    }
-
-    .table tbody td {
-      border-color: var(--border);
-      vertical-align: middle;
-      padding: 11px 14px;
-      transition: background .12s;
-      font-size: .85rem;
-    }
-
-    .table-hover tbody tr:hover td {
-      background: var(--accent-bg) !important;
-    }
-
-    /* ID chip */
-    .id-chip {
-      display: inline-block;
-      font-family: monospace;
-      font-size: .75rem;
-      font-weight: 600;
-      padding: 2px 8px;
-      border-radius: 6px;
-      background: var(--accent-bg);
-      color: var(--accent);
-      cursor: pointer;
-      transition: .15s;
-      border: 1px solid transparent;
-    }
-
-    .id-chip:hover {
-      border-color: var(--accent);
-    }
-
-    /* Issue count chip — tanpa dot warna */
-    .issue-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: .78rem;
-      color: var(--text-muted);
-      background: var(--bg);
-      border: 1px solid var(--border);
-      padding: 2px 8px;
-      border-radius: 20px;
-    }
-
-    /* Action buttons icon-only */
-    .act-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      border: 1px solid var(--border);
-      background: var(--card-bg);
-      color: var(--text-muted);
-      transition: .15s;
-      flex-shrink: 0;
-    }
-
-    .act-btn .material-symbols-rounded {
-      font-size: 1.1rem;
-    }
-
-    .act-btn:hover {
-      background: var(--accent-bg);
-      color: var(--accent);
-      border-color: var(--accent);
-    }
-
-    .act-btn.warn:hover {
-      background: #fef3c7;
-      color: #92400e;
-      border-color: #f59e0b;
-    }
-
-    .act-btn.danger:hover {
-      background: #fee2e2;
-      color: #991b1b;
-      border-color: #ef4444;
-    }
-
-    body.dark .act-btn {
-      background: var(--card-bg);
-      border-color: var(--border);
-    }
-
-    body.dark .act-btn.warn:hover {
-      background: #451a03;
-      color: #fbbf24;
-      border-color: #b45309;
-    }
-
-    body.dark .act-btn.danger:hover {
-      background: #3b0f0f;
-      color: #fca5a5;
-      border-color: #ef4444;
-    }
-
-    /* Name cell (main + sub) */
-    .cell-name-main {
-      font-size: .83rem;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .cell-name-sub {
-      font-size: .7rem;
-      color: var(--text-muted);
-      margin-top: 1px;
-    }
-
-    /* DataTables overrides */
-    body.dark .table> :not(caption)>*>* {
-      background-color: transparent;
-      color: var(--text);
-      border-color: var(--border);
-    }
-
-    .dataTables_wrapper .dataTables_filter input {
-      background: var(--bg);
-      color: var(--text);
-      border: 1.5px solid var(--border);
-      border-radius: 7px;
-      padding: 7px 11px;
-      font-family: var(--font);
-      font-size: .84rem;
-      outline: none;
-      height: 38px;
-    }
-
-    .dataTables_wrapper .dataTables_filter input:focus {
-      border-color: var(--accent);
-    }
-
-    .dataTables_wrapper .dataTables_info {
-      font-size: .82rem;
-      color: var(--text-muted);
-      margin-top: 14px;
-    }
-
-    .dataTables_wrapper .dataTables_paginate {
-      margin-top: 14px;
-    }
-
-    .dataTables_wrapper .dataTables_paginate .pagination .page-item .page-link {
-      font-family: var(--font);
-      font-size: .84rem;
-      color: var(--text-muted);
-      background: var(--card-bg);
-      border-color: var(--border);
-      padding: .45rem .75rem;
-      min-width: 38px;
-      text-align: center;
-    }
-
-    .dataTables_wrapper .dataTables_paginate .pagination .page-item.active .page-link {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-      font-weight: 600;
-    }
-
-    .dataTables_wrapper .dataTables_paginate .pagination .page-item .page-link:hover {
-      background: var(--accent-bg);
-      color: var(--accent);
-      border-color: var(--accent);
-    }
-
-    .dataTables_wrapper .dataTables_paginate .pagination .page-item.disabled .page-link {
-      background: var(--card-bg);
-      color: var(--text-muted);
-      border-color: var(--border);
-      opacity: .5;
-    }
-
-    body.dark .dataTables_wrapper .dataTables_paginate .pagination .page-item .page-link {
-      background: var(--card-bg);
-      border-color: var(--border);
-      color: var(--text-muted);
-    }
-
-    body.dark .dataTables_wrapper .dataTables_paginate .pagination .page-item.active .page-link {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
-
-    .dt-length-select2 {
-      display: inline-block;
-      min-width: 80px;
-    }
-
-    /* ── Select2 global theming ─────────────────────── */
-    .select2-container--bootstrap-5 .select2-selection {
-      background: var(--bg) !important;
-      border: 1.5px solid var(--border) !important;
-      color: var(--text) !important;
-      font-family: var(--font) !important;
-      font-size: .84rem !important;
-      border-radius: 8px !important;
-      min-height: 38px !important;
-    }
-
-    .select2-container--bootstrap-5 .select2-selection--single {
-      height: 38px !important;
-    }
-
-    .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered {
-      color: var(--text) !important;
-      line-height: 36px !important;
-      padding-left: 12px !important;
-      padding-right: 32px !important;
-      font-size: .84rem !important;
-    }
-
-    .select2-container--bootstrap-5 .select2-selection--single .select2-selection__arrow {
-      height: 36px !important;
-      right: 8px !important;
-    }
-
-    .select2-container--bootstrap-5 .select2-dropdown {
-      background: var(--card-bg) !important;
-      border: 1.5px solid var(--border) !important;
-      border-radius: 10px !important;
-      font-size: .84rem !important;
-      font-family: var(--font) !important;
-      box-shadow: 0 8px 28px rgba(0, 0, 0, .13) !important;
-      overflow: hidden;
-    }
-
-    .select2-container--bootstrap-5 .select2-results__option {
-      color: var(--text) !important;
-      padding: 9px 14px !important;
-      font-size: .84rem !important;
-    }
-
-    .select2-container--bootstrap-5 .select2-results__option--highlighted:not([aria-selected=true]) {
-      background: var(--accent-bg) !important;
-      color: var(--accent) !important;
-    }
-
-    .select2-container--bootstrap-5 .select2-results__option[aria-selected=true] {
-      background: var(--accent) !important;
-      color: #fff !important;
-    }
-
-    .select2-container--bootstrap-5 .select2-search--dropdown .select2-search__field {
-      background: var(--bg) !important;
-      color: var(--text) !important;
-      border: 1.5px solid var(--border) !important;
-      border-radius: 7px !important;
-      font-family: var(--font) !important;
-      font-size: .84rem !important;
-      padding: 7px 10px !important;
-    }
-
-    body.dark .select2-container--bootstrap-5 .select2-selection {
-      background: var(--bg) !important;
-    }
-
-    body.dark .select2-container--bootstrap-5 .select2-dropdown {
-      background: var(--card-bg) !important;
-      border-color: var(--border) !important;
-    }
-
-    body.dark .select2-container--bootstrap-5 .select2-search--dropdown .select2-search__field {
-      background: var(--bg) !important;
-      color: var(--text) !important;
-      border-color: var(--border) !important;
-    }
-
-    /* ── VIEWS / PAGES ─────────────────────────────── */
-    .view {
-      display: none;
-    }
-
-    .view.active {
-      display: block;
-    }
-
-    /* ── EVAL SELECTOR ────────────────────────────── */
-    .eval-selector {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .eval-selector select {
-      max-width: 380px;
-    }
-
-    /* ── RADIO GROUP ─────────────────────────────────── */
-    .radio-group {
-      display: flex;
-      gap: 16px;
-    }
-
-    .radio-opt {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      font-size: .83rem;
-    }
-
-    .radio-opt input[type=radio] {
-      accent-color: var(--accent);
-      width: 15px;
-      height: 15px;
-    }
-
-    /* ── EMPTY STATE ─────────────────────────────────── */
-    .empty-state {
-      text-align: center;
-      padding: 48px 20px;
-      color: var(--text-muted);
-    }
-
-    .empty-state .material-symbols-rounded {
-      font-size: 3rem;
-      opacity: .4;
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    .empty-state p {
-      font-size: .85rem;
-    }
-
-    /* ── DESKTOP: sembunyikan tombol hamburger di topbar ── */
-    @media (min-width: 769px) {
-      #sbToggleMob {
-        display: none;
-      }
-    }
-
-    /* ── MOBILE ─────────────────────────────────────── */
-    @media (max-width: 768px) {
-      #sbToggle {
-        display: none;
-      }
-
-      .sidebar {
-        position: fixed;
-        left: 0;
-        top: 0;
-        height: 100%;
-        z-index: 100;
-        width: var(--sidebar-w);
-        transition: left .3s;
-      }
-
-      .sidebar.collapsed {
-        left: calc(-1 * var(--sidebar-w));
-        width: var(--sidebar-w);
-      }
-
-      .main-body {
-        padding: 16px;
-      }
-
-      .topbar {
-        padding: 12px 16px;
-      }
-    }
-
-    .overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, .5);
-      z-index: 99;
-    }
-
-    .overlay.show {
-      display: block;
-    }
-
-    /* spinner */
-    .spinner {
-      display: inline-block;
-      width: 18px;
-      height: 18px;
-      border: 2.5px solid rgba(255, 255, 255, .4);
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin .6s linear infinite;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-  </style>
+  <!-- Vendor CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet"/>
+
+  <!-- App CSS -->
+  <link rel="stylesheet" href="assets/css/app.css"/>
 </head>
-
 <body>
 
-  <div class="overlay" id="overlay"></div>
-  <div class="app-wrap">
+<div class="overlay" id="overlay"></div>
+<div class="app-wrap">
 
-    <!-- ── SIDEBAR ── -->
-    <aside class="sidebar collapsed" id="sidebar">
-      <div class="sb-head">
-        <div class="sb-avatar">EV</div>
-        <div class="sb-info">
-          <div class="sb-title">Evaluasi App</div>
-          <div class="sb-sub">Issue Tracker</div>
-        </div>
-        <button class="icon-btn" id="sbToggle">
-          <span class="material-symbols-rounded">chevron_left</span>
-        </button>
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar collapsed" id="sidebar">
+    <div class="sb-head">
+      <div class="sb-avatar">EV</div>
+      <div class="sb-info">
+        <div class="sb-title">Evaluasi App</div>
+        <div class="sb-sub">Issue Tracker</div>
       </div>
+      <button class="icon-btn" id="sbToggle">
+        <span class="material-symbols-rounded">chevron_left</span>
+      </button>
+    </div>
+    <nav class="sb-nav">
+      <div class="nav-label">Menu</div>
+      <ul class="nav-list">
+        <li>
+          <button class="nav-link active" data-view="list" onclick="showView('list')">
+            <span class="material-symbols-rounded">view_list</span>
+            <span class="label">Evaluation List</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+    <div class="sb-foot">
+      <button class="theme-btn" id="themeBtn">
+        <span class="material-symbols-rounded" id="themeIcon">dark_mode</span>
+        <span class="t-label" id="themeLabel">Dark Mode</span>
+      </button>
+    </div>
+  </aside>
 
-      <nav class="sb-nav">
-        <div class="nav-label">Menu</div>
-        <ul class="nav-list">
-          <li>
-            <button class="nav-link active" data-view="list" onclick="showView('list')">
-              <span class="material-symbols-rounded">view_list</span>
-              <span class="label">Evaluation List</span>
+  <!-- ── MAIN ── -->
+  <div class="main">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <button class="icon-btn" id="sbToggleMob">
+        <span class="material-symbols-rounded">menu</span>
+      </button>
+      <div class="breadcrumb-wrap">
+        <div class="page-title" id="pageTitle">Evaluation List</div>
+        <div class="page-subtitle" id="pageSubtitle">Master data evaluasi &amp; issue</div>
+      </div>
+    </div>
+
+    <div class="main-body">
+
+      <!-- ── VIEW: LIST ── -->
+      <div class="view active" id="view-list">
+        <div class="card">
+          <div class="card-head">
+            <div class="card-head-inner">
+              <div>
+                <div class="card-title">Evaluation List</div>
+                <div class="card-sub">Daftar semua evaluasi</div>
+              </div>
+              <span class="badge-count" id="eval-badge-count">0 data</span>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="showView('form-eval',{mode:'add'})">
+              <span class="material-symbols-rounded">add</span> Add
             </button>
-          </li>
-        </ul>
-      </nav>
-
-      <div class="sb-foot">
-        <button class="theme-btn" id="themeBtn">
-          <span class="material-symbols-rounded" id="themeIcon">dark_mode</span>
-          <span class="t-label" id="themeLabel">Dark Mode</span>
-        </button>
-      </div>
-    </aside>
-
-    <!-- ── MAIN ── -->
-    <div class="main">
-      <!-- Topbar -->
-      <div class="topbar">
-        <button class="icon-btn" id="sbToggleMob">
-          <span class="material-symbols-rounded">menu</span>
-        </button>
-        <div class="breadcrumb-wrap">
-          <div class="page-title" id="pageTitle">Evaluation List</div>
-          <div class="page-subtitle" id="pageSubtitle">Master data evaluasi &amp; issue</div>
+          </div>
+          <div style="padding:16px 20px 4px">
+            <table class="table table-hover w-100" id="tbl-eval">
+              <thead>
+                <tr>
+                  <th style="width:16%">ID</th>
+                  <th style="width:49%">Name</th>
+                  <th class="text-center" style="width:18%">Total Issue</th>
+                  <th class="text-center" style="width:17%">Action</th>
+                </tr>
+              </thead>
+              <tbody id="eval-tbody"></tbody>
+            </table>
+          </div>
         </div>
       </div>
 
-      <div class="main-body">
-
-        <!-- ── VIEW: LIST ── -->
-        <div class="view active" id="view-list">
-          <div class="card">
+      <!-- ── VIEW: FORM EVALUASI ── -->
+      <div class="view" id="view-form-eval">
+        <div class="d-flex justify-content-center">
+          <div class="card w-100" style="max-width:640px">
             <div class="card-head">
-              <div class="card-head-inner">
-                <div>
-                  <div class="card-title">Evaluation List</div>
-                  <div class="card-sub">Daftar semua evaluasi</div>
-                </div>
-                <span class="badge-count" id="eval-badge-count">0 data</span>
-              </div>
-              <button class="btn btn-primary btn-sm" onclick="showView('form-eval', {mode:'add'})">
-                <span class="material-symbols-rounded">add</span> Add
-              </button>
+              <div class="card-title" id="form-eval-title">Add Evaluation</div>
             </div>
-            <div style="padding:16px 20px 4px">
-              <div id="tbl-eval-wrap">
-                <table class="table table-hover w-100" id="tbl-eval">
-                  <thead>
-                    <tr>
-                      <th style="width:16%">ID</th>
-                      <th style="width:49%">Name</th>
-                      <th class="text-center" style="width:18%">Total Issue</th>
-                      <th class="text-center" style="width:17%">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody id="eval-tbody"></tbody>
-                </table>
+            <div class="card-body">
+              <input type="hidden" id="eval-id-hidden"/>
+              <div id="eval-id-row" style="display:none" class="mb-3">
+                <label class="form-label">ID</label>
+                <input type="text" class="form-control" id="eval-id-display" readonly style="background:var(--accent-bg);color:var(--text-muted)"/>
+                <div class="form-error" style="color:var(--text-muted);font-size:.72rem;margin-top:3px">ID tidak bisa diubah</div>
+              </div>
+              <div class="mb-4">
+                <label class="form-label">Name <span class="req">*</span></label>
+                <input type="text" class="form-control" id="eval-nama" placeholder="Masukkan nama evaluasi unik"/>
+                <div class="form-error" id="eval-nama-err"></div>
+              </div>
+              <div class="d-flex justify-content-end gap-2">
+                <button class="btn btn-light btn-sm" onclick="showView('list')">
+                  <span class="material-symbols-rounded">arrow_back</span> Back
+                </button>
+                <button class="btn btn-primary btn-sm" id="btn-save-eval" onclick="saveEval()">
+                  <span class="material-symbols-rounded">check</span> Save
+                </button>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- ── VIEW: FORM EVALUASI ── -->
-        <div class="view" id="view-form-eval">
-          <div class="d-flex justify-content-center">
-            <div class="card w-100" style="max-width:640px">
-              <div class="card-head">
-                <div class="card-title" id="form-eval-title">Add Evaluation</div>
-              </div>
-              <div class="card-body">
-                <input type="hidden" id="eval-id-hidden" />
-                <div class="mb-4">
-                  <div id="eval-id-row" style="display:none" class="mb-4">
-                    <label class="form-label">ID</label>
-                    <input type="text" class="form-control" id="eval-id-display" readonly
-                      style="background:var(--accent-bg);color:var(--text-muted)" />
-                    <div class="form-error" style="color:var(--text-muted);font-size:.72rem;margin-top:3px">ID tidak
-                      bisa diubah</div>
-                  </div>
-                  <label class="form-label">Name <span class="req">*</span></label>
-                  <input type="text" class="form-control" id="eval-nama" placeholder="Masukkan nama evaluasi unik" />
-                  <div class="form-error" id="eval-nama-err"></div>
-                </div>
-                <div class="d-flex justify-content-end gap-2">
-                  <button class="btn btn-light btn-sm" onclick="showView('list')">
-                    <span class="material-symbols-rounded">arrow_back</span> Back
-                  </button>
-                  <button class="btn btn-primary btn-sm" id="btn-save-eval" onclick="saveEval()">
-                    <span class="material-symbols-rounded">check</span> Save
-                  </button>
-                </div>
+      <!-- ── VIEW: DETAIL / ISSUES ── -->
+      <div class="view" id="view-detail">
+        <div class="card mb-3">
+          <div class="card-body py-3">
+            <div class="eval-selector">
+              <label class="form-label mb-0" style="white-space:nowrap">Select Evaluation:</label>
+              <select class="form-select form-select-sm" id="eval-selector"></select>
+              <div class="ms-auto d-flex gap-2">
+                <button class="btn btn-warning btn-sm" onclick="editCurrentEval()">
+                  <span class="material-symbols-rounded">edit</span> Edit Name
+                </button>
+                <button class="btn btn-light btn-sm" onclick="showView('list')">
+                  <span class="material-symbols-rounded">arrow_back</span> Back
+                </button>
               </div>
             </div>
           </div>
         </div>
-
-        <!-- ── VIEW: DETAIL / ISSUES ── -->
-        <div class="view" id="view-detail">
-          <!-- Selector -->
-          <div class="card mb-3">
-            <div class="card-body py-3">
-              <div class="eval-selector">
-                <label class="form-label mb-0" style="white-space:nowrap">Select Evaluation:</label>
-                <select class="form-select form-select-sm" id="eval-selector"
-                  onchange="loadDetail(this.value)"></select>
-                <div class="ms-auto d-flex gap-2">
-                  <button class="btn btn-warning btn-sm" id="btn-edit-eval-head" onclick="editCurrentEval()">
-                    <span class="material-symbols-rounded">edit</span> Edit Name
-                  </button>
-                  <button class="btn btn-light btn-sm" onclick="showView('list')">
-                    <span class="material-symbols-rounded">arrow_back</span> Back
-                  </button>
-                </div>
+        <div class="card">
+          <div class="card-head">
+            <div class="card-head-inner">
+              <div>
+                <div class="card-title">Issue List</div>
+                <div class="card-sub" id="detail-eval-name">—</div>
               </div>
+              <span class="badge-count" id="issue-badge-count">0 issue</span>
             </div>
+            <button class="btn btn-primary btn-sm" onclick="showView('form-issue',{mode:'add'})">
+              <span class="material-symbols-rounded">add</span> Add Issue
+            </button>
           </div>
-          <!-- Issues -->
-          <div class="card">
+          <div style="padding:16px 20px 4px">
+            <table class="table table-hover w-100" id="tbl-issue">
+              <thead>
+                <tr>
+                  <th class="text-center" style="width:5%">No</th>
+                  <th style="width:28%">Issue</th>
+                  <th style="width:22%">Note</th>
+                  <th class="text-center" style="width:12%">Deadline</th>
+                  <th class="text-center" style="width:10%">Status</th>
+                  <th class="text-center" style="width:13%">Action</th>
+                </tr>
+              </thead>
+              <tbody id="issue-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── VIEW: FORM ISSUE ── -->
+      <div class="view" id="view-form-issue">
+        <div class="d-flex justify-content-center">
+          <div class="card w-100" style="max-width:720px">
             <div class="card-head">
-              <div class="card-head-inner">
-                <div>
-                  <div class="card-title">Issue List</div>
-                  <div class="card-sub" id="detail-eval-name">—</div>
-                </div>
-                <span class="badge-count" id="issue-badge-count">0 issue</span>
-              </div>
-              <button class="btn btn-primary btn-sm" onclick="showView('form-issue', {mode:'add'})">
-                <span class="material-symbols-rounded">add</span> Add Issue
-              </button>
+              <div class="card-title" id="form-issue-title">Add Issue</div>
             </div>
-            <div style="padding:16px 20px 4px">
-              <table class="table table-hover w-100" id="tbl-issue">
-                <thead>
-                  <tr>
-                    <th class="text-center" style="width:5%">No</th>
-                    <th style="width:28%">Issue</th>
-                    <th style="width:22%">Note</th>
-                    <th class="text-center" style="width:12%">Deadline</th>
-                    <th class="text-center" style="width:10%">Status</th>
-                    <th class="text-center" style="width:13%">Action</th>
-                  </tr>
-                </thead>
-                <tbody id="issue-tbody"></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- ── VIEW: FORM ISSUE ── -->
-        <div class="view" id="view-form-issue">
-          <div class="d-flex justify-content-center">
-            <div class="card w-100" style="max-width:720px">
-              <div class="card-head">
-                <div class="card-title" id="form-issue-title">Add Issue</div>
+            <div class="card-body">
+              <input type="hidden" id="issue-id-hidden"/>
+              <input type="hidden" id="issue-eval-id-hidden"/>
+              <div class="mb-3">
+                <label class="form-label">Issue <span class="req">*</span></label>
+                <textarea class="form-control" id="issue-text" rows="4" placeholder="Deskripsikan issue…"></textarea>
+                <div class="form-error" id="issue-text-err"></div>
               </div>
-              <div class="card-body">
-                <input type="hidden" id="issue-id-hidden" />
-                <input type="hidden" id="issue-eval-id-hidden" />
-
-                <div class="mb-3">
-                  <label class="form-label">Issue <span class="req">*</span></label>
-                  <textarea class="form-control" id="issue-text" rows="4" placeholder="Deskripsikan issue…"></textarea>
-                  <div class="form-error" id="issue-text-err"></div>
+              <div class="mb-3">
+                <label class="form-label">Note <span style="color:var(--text-muted);font-weight:400">(opsional)</span></label>
+                <textarea class="form-control" id="issue-note" rows="3" placeholder="Catatan tambahan…"></textarea>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Deadline <span class="req">*</span></label>
+                <input type="date" class="form-control" id="issue-deadline"/>
+                <div class="form-error" id="issue-deadline-err"></div>
+              </div>
+              <div class="mb-4">
+                <label class="form-label">Status <span class="req">*</span></label>
+                <div class="radio-group">
+                  <label class="radio-opt"><input type="radio" name="issue-status" value="Belum" checked/> Pending</label>
+                  <label class="radio-opt"><input type="radio" name="issue-status" value="Sudah"/> Done</label>
                 </div>
-                <div class="mb-3">
-                  <label class="form-label">Note <span
-                      style="color:var(--text-muted);font-weight:400">(opsional)</span></label>
-                  <textarea class="form-control" id="issue-note" rows="3" placeholder="Catatan tambahan…"></textarea>
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">Deadline <span class="req">*</span></label>
-                  <input type="date" class="form-control" id="issue-deadline" />
-                  <div class="form-error" id="issue-deadline-err"></div>
-                </div>
-                <div class="mb-4">
-                  <label class="form-label">Status <span class="req">*</span></label>
-                  <div class="radio-group">
-                    <label class="radio-opt">
-                      <input type="radio" name="issue-status" value="Belum" checked /> Pending
-                    </label>
-                    <label class="radio-opt">
-                      <input type="radio" name="issue-status" value="Sudah" /> Done
-                    </label>
-                  </div>
-                  <div class="form-error" id="issue-status-err"></div>
-                </div>
-                <div class="d-flex justify-content-end gap-2">
-                  <button class="btn btn-light btn-sm" onclick="showView('detail')">
-                    <span class="material-symbols-rounded">arrow_back</span> Cancel
-                  </button>
-                  <button class="btn btn-primary btn-sm" id="btn-save-issue" onclick="saveIssue()">
-                    <span class="material-symbols-rounded">check</span> Save Issue
-                  </button>
-                </div>
+                <div class="form-error" id="issue-status-err"></div>
+              </div>
+              <div class="d-flex justify-content-end gap-2">
+                <button class="btn btn-light btn-sm" onclick="showView('detail')">
+                  <span class="material-symbols-rounded">arrow_back</span> Cancel
+                </button>
+                <button class="btn btn-primary btn-sm" id="btn-save-issue" onclick="saveIssue()">
+                  <span class="material-symbols-rounded">check</span> Save Issue
+                </button>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-      </div><!-- /main-body -->
-    </div><!-- /main -->
-  </div><!-- /app-wrap -->
+    </div><!-- /main-body -->
+  </div><!-- /main -->
+</div><!-- /app-wrap -->
 
-  <!-- Scripts -->
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Scroll buttons -->
+<div class="scroll-btns">
+  <button class="scroll-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Ke atas">
+    <span class="material-symbols-rounded">keyboard_arrow_up</span>
+  </button>
+  <button class="scroll-btn" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})" title="Ke bawah">
+    <span class="material-symbols-rounded">keyboard_arrow_down</span>
+  </button>
+</div>
 
-  <script>
-    const BASE = './api.php?path=';
-    const API_KEY = 'evaluasi-secret-2025';
+<!-- Vendor JS -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    let state = {
-      currentEvalId: null,
-      allEval: [],
-      dtEval: null,
-      dtIssue: null,
-    };
+<!-- App JS -->
+<script src="assets/js/app.js"></script>
 
-    async function api(method, path, body = null) {
-      const opts = {
-        method,
-        headers: { 'Content-Type': 'application/json', 'X-API-Key': API_KEY },
-      };
-      if (body) opts.body = JSON.stringify(body);
-      const res = await fetch(BASE + path, opts);
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Request failed');
-      return data;
-    }
-    const GET = path => api('GET', path);
-    const POST = (path, b) => api('POST', path, b);
-    const PUT = (path, b) => api('PUT', path, b);
-    const DELETE = path => api('DELETE', path);
-
-    const toast = (icon, title) => Swal.fire({ icon, title, toast: true, position: 'top-end', showConfirmButton: false, timer: 2200, timerProgressBar: true });
-    const fmtDate = iso => iso ? iso.split('-').reverse().join('-') : '-';
-
-    function showView(name, ctx = {}) {
-      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-      document.getElementById('view-' + name)?.classList.add('active');
-      document.querySelectorAll('.nav-link').forEach(l => l.classList.toggle('active', l.dataset.view === name));
-
-      const titles = {
-        'list': ['Evaluation List', 'Master data evaluasi & issue'],
-        'form-eval': [ctx.mode === 'edit' ? 'Edit Evaluation' : 'Add Evaluation', ''],
-        'detail': ['Evaluation Detail', ''],
-        'form-issue': [ctx.mode === 'edit' ? 'Edit Issue' : 'Add Issue', ''],
-      };
-      const [t, s] = titles[name] || ['', ''];
-      document.getElementById('pageTitle').textContent = t;
-      document.getElementById('pageSubtitle').textContent = s;
-
-      if (name === 'list') loadList();
-      if (name === 'form-eval') initFormEval(ctx);
-      if (name === 'detail') initDetail();
-      if (name === 'form-issue') initFormIssue(ctx);
-    }
-
-    async function loadList() {
-      try {
-        state.allEval = await GET('evaluasi');
-        renderEvalTable(state.allEval);
-      } catch (e) { toast('error', e.message); }
-    }
-
-    function renderEvalTable(rows) {
-      if (state.dtEval) { state.dtEval.destroy(); state.dtEval = null; }
-
-      const tbody = document.getElementById('eval-tbody');
-      if (!rows.length) {
-        tbody.innerHTML = `<tr><td colspan="4"><div class="empty-state">
-      <span class="material-symbols-rounded">inbox</span>
-      <p>Belum ada data. Klik <strong>Add</strong> untuk mulai.</p></div></td></tr>`;
-        return;
-      }
-
-      document.getElementById('eval-badge-count').textContent = rows.length + ' data';
-
-      tbody.innerHTML = rows.map(r => `
-    <tr>
-      <td>
-        <span class="id-chip" onclick="goDetail('${r.id}')">${r.id}</span>
-      </td>
-      <td>${esc(r.nama)}</td>
-      <td class="text-center">
-        <span class="issue-chip">${r.total_issue} issue</span>
-      </td>
-      <td class="text-center">
-        <div class="d-flex justify-content-center gap-1">
-          <button class="act-btn" onclick="goDetail('${r.id}')" title="Detail">
-            <span class="material-symbols-rounded">visibility</span>
-          </button>
-          <button class="act-btn warn" onclick="showView('form-eval',{mode:'edit',id:'${r.id}'})" title="Edit">
-            <span class="material-symbols-rounded">edit</span>
-          </button>
-          <button class="act-btn danger" onclick="deleteEval('${r.id}')" title="Delete">
-            <span class="material-symbols-rounded">delete</span>
-          </button>
-        </div>
-      </td>
-    </tr>`).join('');
-
-      state.dtEval = $('#tbl-eval').DataTable({
-        autoWidth: false, responsive: true,
-        order: [[0, 'asc']], pageLength: 10,
-        lengthMenu: [5, 10, 25, 50],
-        dom: "<'row mb-2'<'col-sm-6 d-flex align-items-center gap-2'l><'col-sm-6 d-flex justify-content-end'f>>" +
-          "<'row'<'col-12'tr>>" +
-          "<'row mt-2'<'col-sm-5'i><'col-sm-7 d-flex justify-content-end'p>>",
-        language: { search: '', searchPlaceholder: 'Cari data…', lengthMenu: 'Tampilkan _MENU_', info: 'Menampilkan _START_–_END_ dari _TOTAL_ data', infoEmpty: 'Tidak ada data', zeroRecords: 'Data tidak ditemukan' },
-        columnDefs: [{ targets: [0, 2, 3], orderable: false }],
-        initComplete: function () {
-          const lenSel = $(this.api().table().container()).find('.dataTables_length select');
-          lenSel.addClass('form-select').css('width', 'auto');
-          lenSel.select2({ theme: 'bootstrap-5', minimumResultsForSearch: Infinity, width: 'auto', dropdownAutoWidth: true });
-        }
-      });
-    }
-
-    async function deleteEval(id) {
-      const res = await Swal.fire({
-        title: 'Hapus evaluasi ini?', text: 'Semua issue terkait ikut terhapus.',
-        icon: 'warning', showCancelButton: true,
-        confirmButtonColor: '#ef4444', confirmButtonText: 'Ya, hapus!',
-      });
-      if (!res.isConfirmed) return;
-      try {
-        await DELETE('evaluasi/' + id);
-        toast('success', 'Data berhasil dihapus');
-        loadList();
-      } catch (e) { toast('error', e.message); }
-    }
-
-    async function initFormEval(ctx) {
-      const isEdit = ctx.mode === 'edit';
-      document.getElementById('form-eval-title').textContent = isEdit ? 'Edit Evaluation' : 'Add Evaluation';
-      document.getElementById('eval-nama').value = '';
-      document.getElementById('eval-nama-err').textContent = '';
-      document.getElementById('eval-id-hidden').value = '';
-      document.getElementById('eval-id-display').value = '';
-      document.getElementById('eval-id-row').style.display = 'none';
-      document.getElementById('btn-save-eval').innerHTML = `<span class="material-symbols-rounded">check</span> ${isEdit ? 'Update' : 'Save'}`;
-
-      if (isEdit && ctx.id) {
-        try {
-          const ev = await GET('evaluasi/' + ctx.id);
-          document.getElementById('eval-id-hidden').value = ev.id;
-          document.getElementById('eval-id-display').value = ev.id;
-          document.getElementById('eval-nama').value = ev.nama;
-          document.getElementById('eval-id-row').style.display = 'block';
-        } catch (e) { toast('error', e.message); showView('list'); }
-      }
-    }
-
-    async function saveEval() {
-      const id = document.getElementById('eval-id-hidden').value;
-      const nama = document.getElementById('eval-nama').value.trim();
-      const errEl = document.getElementById('eval-nama-err');
-      const ctrl = document.getElementById('eval-nama');
-
-      errEl.textContent = '';
-      ctrl.classList.remove('invalid');
-      if (!nama) { ctrl.classList.add('invalid'); errEl.textContent = 'Nama wajib diisi'; return; }
-
-      const btn = document.getElementById('btn-save-eval');
-      btn.innerHTML = `<span class="spinner"></span>`;
-      btn.disabled = true;
-
-      try {
-        if (id) { await PUT('evaluasi/' + id, { nama }); toast('success', 'Data berhasil diupdate'); }
-        else { await POST('evaluasi', { nama }); toast('success', 'Data berhasil ditambahkan'); }
-        showView('list');
-      } catch (e) {
-        ctrl.classList.add('invalid');
-        errEl.textContent = e.message;
-      } finally {
-        btn.innerHTML = `<span class="material-symbols-rounded">check</span> ${id ? 'Update' : 'Save'}`;
-        btn.disabled = false;
-      }
-    }
-
-    async function initDetail() {
-      try {
-        if (!state.allEval.length) state.allEval = await GET('evaluasi');
-        const sel = document.getElementById('eval-selector');
-
-        if ($(sel).hasClass('select2-hidden-accessible')) $(sel).select2('destroy');
-
-        sel.innerHTML = state.allEval.map(e =>
-          `<option value="${e.id}" ${e.id === state.currentEvalId ? 'selected' : ''}>${e.id} — ${esc(e.nama)} (${e.total_issue} Issue)</option>`
-        ).join('');
-
-        const id = state.currentEvalId || (state.allEval[0]?.id);
-        if (id) { state.currentEvalId = id; sel.value = id; }
-
-        $(sel).select2({
-          theme: 'bootstrap-5',
-          width: '100%',
-          dropdownAutoWidth: false,
-        }).on('change', function () {
-          loadDetail(this.value);
-        });
-
-        if (id) loadDetail(id);
-      } catch (e) { toast('error', e.message); }
-    }
-
-    async function loadDetail(id) {
-      state.currentEvalId = id;
-      try {
-        const [ev, issues] = await Promise.all([GET('evaluasi/' + id), GET('evaluasi/' + id + '/issues')]);
-        document.getElementById('detail-eval-name').textContent = ev.nama;
-        renderIssueTable(issues);
-      } catch (e) { toast('error', e.message); }
-    }
-
-    function renderIssueTable(rows) {
-      if (state.dtIssue) { state.dtIssue.destroy(); state.dtIssue = null; }
-
-      const tbody = document.getElementById('issue-tbody');
-      if (!rows.length) {
-        tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state">
-      <span class="material-symbols-rounded">task_alt</span>
-      <p>Belum ada issue. Klik <strong>Add Issue</strong> untuk mulai.</p></div></td></tr>`;
-        return;
-      }
-
-      document.getElementById('issue-badge-count').textContent = rows.length + ' issue';
-
-      tbody.innerHTML = rows.map((r, i) => `
-    <tr>
-      <td class="text-center" style="color:var(--text-muted);font-size:.78rem">${i + 1}</td>
-      <td>
-        <div class="cell-name-main" style="white-space:pre-wrap;word-break:break-word">${esc(r.issue)}</div>
-      </td>
-      <td style="white-space:pre-wrap;word-break:break-word">
-        ${esc(r.note) ? `<span style="font-size:.8rem;color:var(--text-muted)">${esc(r.note)}</span>` : '<span style="color:var(--text-muted);font-size:.8rem">—</span>'}
-      </td>
-      <td class="text-center" style="font-size:.8rem;font-variant-numeric:tabular-nums">${fmtDate(r.deadline)}</td>
-      <td class="text-center">${r.status === 'Sudah' ? '<span class="badge-done">Done</span>' : '<span class="badge-pending">Pending</span>'}</td>
-      <td class="text-center">
-        <div class="d-flex justify-content-center gap-1">
-          <button class="act-btn warn" onclick="editIssue(${r.id})" title="Edit">
-            <span class="material-symbols-rounded">edit</span>
-          </button>
-          <button class="act-btn danger" onclick="deleteIssue(${r.id})" title="Delete">
-            <span class="material-symbols-rounded">delete</span>
-          </button>
-        </div>
-      </td>
-    </tr>`).join('');
-
-      state.dtIssue = $('#tbl-issue').DataTable({
-        autoWidth: false, responsive: true,
-        pageLength: 100, lengthMenu: [10, 25, 50, 100],
-        order: [],
-        dom: "<'row mb-2'<'col-sm-6 d-flex align-items-center gap-2'l><'col-sm-6 d-flex justify-content-end'f>>" +
-          "<'row'<'col-12'tr>>" +
-          "<'row mt-2'<'col-sm-5'i><'col-sm-7 d-flex justify-content-end'p>>",
-        language: { search: '', searchPlaceholder: 'Cari issue…', lengthMenu: 'Tampilkan _MENU_', info: 'Menampilkan _START_–_END_ dari _TOTAL_ issue', infoEmpty: 'Tidak ada issue', zeroRecords: 'Issue tidak ditemukan', emptyTable: 'Tidak ada issue.' },
-        columnDefs: [{ targets: [0, 5], orderable: false }],
-        initComplete: function () {
-          const lenSel = $(this.api().table().container()).find('.dataTables_length select');
-          lenSel.addClass('form-select').css('width', 'auto');
-          lenSel.select2({ theme: 'bootstrap-5', minimumResultsForSearch: Infinity, width: 'auto', dropdownAutoWidth: true });
-        }
-      });
-    }
-
-    function goDetail(id) { state.currentEvalId = id; showView('detail'); }
-    function editCurrentEval() { showView('form-eval', { mode: 'edit', id: state.currentEvalId }); }
-
-    async function initFormIssue(ctx) {
-      const isEdit = ctx.mode === 'edit';
-      document.getElementById('form-issue-title').textContent = isEdit ? 'Edit Issue' : 'Add Issue';
-      document.getElementById('issue-text').value = '';
-      document.getElementById('issue-note').value = '';
-      document.getElementById('issue-deadline').value = '';
-      document.getElementById('issue-id-hidden').value = '';
-      document.getElementById('issue-eval-id-hidden').value = state.currentEvalId;
-      document.querySelectorAll('[name="issue-status"]').forEach(r => r.checked = r.value === 'Belum');
-      ['issue-text-err', 'issue-deadline-err', 'issue-status-err'].forEach(id => document.getElementById(id).textContent = '');
-      document.getElementById('btn-save-issue').innerHTML = `<span class="material-symbols-rounded">check</span> ${isEdit ? 'Update Issue' : 'Save Issue'}`;
-
-      if (isEdit && ctx.id) {
-        try {
-          const iss = await GET('issues/' + ctx.id);
-          document.getElementById('issue-id-hidden').value = iss.id;
-          document.getElementById('issue-eval-id-hidden').value = iss.evaluasi_id;
-          document.getElementById('issue-text').value = iss.issue;
-          document.getElementById('issue-note').value = iss.note || '';
-          document.getElementById('issue-deadline').value = iss.deadline;
-          document.querySelectorAll('[name="issue-status"]').forEach(r => r.checked = r.value === iss.status);
-        } catch (e) { toast('error', e.message); showView('detail'); }
-      }
-    }
-
-    function editIssue(id) { showView('form-issue', { mode: 'edit', id }); }
-
-    async function saveIssue() {
-      const id = document.getElementById('issue-id-hidden').value;
-      const evalId = document.getElementById('issue-eval-id-hidden').value;
-      const issue = document.getElementById('issue-text').value.trim();
-      const note = document.getElementById('issue-note').value.trim();
-      const deadline = document.getElementById('issue-deadline').value;
-      const status = document.querySelector('[name="issue-status"]:checked')?.value;
-
-      let valid = true;
-      [['issue-text', issue, 'Issue wajib diisi'], ['issue-deadline', deadline, 'Deadline wajib diisi']].forEach(([fid, val, msg]) => {
-        const el = document.getElementById(fid);
-        const er = document.getElementById(fid + '-err');
-        if (!val) { el.classList.add('invalid'); er.textContent = msg; valid = false; }
-        else { el.classList.remove('invalid'); er.textContent = ''; }
-      });
-      if (!valid) return;
-
-      const btn = document.getElementById('btn-save-issue');
-      btn.innerHTML = `<span class="spinner"></span>`;
-      btn.disabled = true;
-
-      const body = { evaluasi_id: evalId, issue, note: note || null, deadline, status };
-      try {
-        if (id) { await PUT('issues/' + id, body); toast('success', 'Issue berhasil diupdate'); }
-        else { await POST('issues', body); toast('success', 'Issue berhasil ditambahkan'); }
-        showView('detail');
-      } catch (e) { toast('error', e.message); }
-      finally {
-        btn.innerHTML = `<span class="material-symbols-rounded">check</span> ${id ? 'Update Issue' : 'Save Issue'}`;
-        btn.disabled = false;
-      }
-    }
-
-    async function deleteIssue(id) {
-      const res = await Swal.fire({
-        title: 'Hapus issue ini?', icon: 'warning', showCancelButton: true,
-        confirmButtonColor: '#ef4444', confirmButtonText: 'Ya, hapus!',
-      });
-      if (!res.isConfirmed) return;
-      try {
-        await DELETE('issues/' + id);
-        toast('success', 'Issue berhasil dihapus');
-        loadDetail(state.currentEvalId);
-      } catch (e) { toast('error', e.message); }
-    }
-
-    function esc(str) {
-      if (!str) return '';
-      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-    }
-
-    // ── SIDEBAR ──
-    const sidebar = document.getElementById('sidebar');
-    document.getElementById('sbToggle').addEventListener('click', () => sidebar.classList.toggle('collapsed'));
-    document.getElementById('sbToggleMob').addEventListener('click', () => {
-      sidebar.classList.toggle('collapsed');
-      document.getElementById('overlay').classList.toggle('show', !sidebar.classList.contains('collapsed'));
-    });
-    document.getElementById('overlay').addEventListener('click', () => {
-      sidebar.classList.add('collapsed');
-      document.getElementById('overlay').classList.remove('show');
-    });
-    if (window.innerWidth > 768) sidebar.classList.remove('collapsed');
-
-    // ── DARK MODE ──
-    const themeBtn = document.getElementById('themeBtn');
-    const themeIcon = document.getElementById('themeIcon');
-    const themeLabel = document.getElementById('themeLabel');
-    const applyTheme = dark => {
-      document.body.classList.toggle('dark', dark);
-      themeIcon.textContent = dark ? 'light_mode' : 'dark_mode';
-      themeLabel.textContent = dark ? 'Light Mode' : 'Dark Mode';
-    };
-    const saved = localStorage.getItem('ev_theme');
-    applyTheme(saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme:dark)').matches));
-    themeBtn.addEventListener('click', () => {
-      const dark = !document.body.classList.contains('dark');
-      localStorage.setItem('ev_theme', dark ? 'dark' : 'light');
-      applyTheme(dark);
-    });
-
-    showView('list');
-  </script>
 </body>
-
 </html>
